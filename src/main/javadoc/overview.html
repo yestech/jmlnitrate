@@ -1,0 +1,299 @@
+<html>
+<head>
+<title>
+JMLNitrate Micro-Kernel.
+</title>
+</head>
+<body>
+<p>
+This product represents a Micro-Kernel named JMLNitrate.  The purpose of the
+Micro-Kernel is to have a system that takes care of the Core Functionality
+needed by Saphari.com.
+<br><br>
+JMLNitrate can be thought of as an OIL Pipeline with the actual pipe being the
+bus where the Request lives and each treatment plant representing different
+modules that can process the oil and ship it to the next treatment plant.
+<br><br>
+Diagram:
+</p>
+<br>
+Request -> Input Transformation -> Processing -> Ouptut Transformation ->
+Response
+<br>
+- or -
+<br>
+Handler -> Transformer -> Processor -> Transformer -> Handler
+<br>
+<p>
+There are a number of Requirements that must be satisified by the Kernel:
+<ul>
+<li>Not tied to <b>ANY</b> specific technology.
+<li><b>ONLY</b> Provide Core Functionality.  That means that it
+<b>shouldn't</b> be worried about <b>ANY</b> Application Specific
+Functionality.
+<li>Needs to be Modular.
+<li>Able to handle Dynamic Changes/Plugable.
+<li>Ability to accept different types of message transport layers.
+   <ul>
+       <li>TCP/IP
+       <li>UDP/IP
+       <li>ICMP
+       <li>etc...
+   </ul>
+<li>Ability to handle different types of message protocols
+   <ul>
+       <li>HTTP
+       <li>SOAP
+       <li>RMI
+       <li>etc...
+   </ul>
+<li>Caching
+<li>Object & Thread Pooling
+<li>Multi Threaded
+<li>Dynamic Classloading
+<li>Dynamically process requests and return types of the request
+<li>extensible
+<li>Tread Safe.
+</ul>
+</p>
+<br>
+<p>
+Sample Applications for JMLNitrate:
+<ul>
+   <li>Shopping Cart
+   <li>Membership
+   <li>CRM System
+   <li>GIS
+   <li>Casino
+   <li>Information Databases
+   <li>Search Engine
+   <li>WEB OS
+</ul>
+</p>
+<br>
+<p>
+Implemenation:
+<br>
+JMLNitrate makes extensive use of Fundamental OOA & OOD along with Design
+Patterns.
+<br><br>
+Patterns used:
+<br>
+<ul>
+   <li>Factory Method
+   <li>Builder
+   <li>Visitor
+   <li>Facade
+   <li>Adaptor
+   <li>Creator (GRASP)
+   <li>Low Coupling/High Cohesion (GRASP)
+   <li>Marker
+   <li>Acyclic Visitor
+   <li>Chain Of Responsibility
+</ul>
+These are by no means all the patterns used in the creation of the Micro-Kernel
+but are the base ones used.
+<p>
+<br>
+JMLNitrate is configurable from an XML configuration file -
+"saphari-jmlnitrate.xml":
+<br>
+<pre>
+&lt;?xml version="1.0"?&gt;
+&lt;saphari-jmlnitrate&gt;
+   &lt;!--
+     The ONLY valid types currently supported are:
+           handler: request/response, transformer: inbound/outbound
+
+	   there can 0..n parameters for each plant.  parameters are in the form
+	   of:
+	       key - param name
+	         value(s) - info needed
+           
+     There MUST BE A request, response, inbound & outbound.
+   --&gt;
+  &lt;plant name="Http Request Handler" type="request" factory="com.saphari.jmlnitrate.handler.request.HttpServletRequestHandlerFactory" /&gt;
+  &lt;plant name="Http Request Inbound Transformer" type="inbound" factory="com.saphari.jmlnitrate.transformation.inbound.HttpServletInboundTransformationFactory"&gt;
+      &lt;param key="transformer"&gt;
+          &lt;value&gt;
+	  com.saphari.jmlnitrate.transformation.inbound.HttpServletRequestInboundTransformation
+	  &lt;/value&gt;
+       &lt;/param&gt;
+   &lt;/plant&gt;
+  &lt;plant name="Http JSP Outbound Response" type="outbound" factory="com.saphari.jmlnitrate.transformation.outbound.HttpServletOutboundTransformationFactory"&gt;
+      &lt;param key="transformer"&gt;
+          &lt;value&gt;
+	  com.saphari.jmlnitrate.transformation.outbound.HttpServletJSPOutboundTransformation
+	  &lt;/value&gt;
+      &lt;/param&gt;
+  &lt;/plant&gt;
+  &lt;plant name="Http Response Handler" type="response" factory="com.saphari.jmlnitrate.handler.response.HttpServletResponseHandlerFactory" /&gt;
+&lt;/saphari-jmlnitrate&gt;
+</pre>
+<br>
+The system is broken into 5 modules:
+<i>Request</i>, <i>Transformation</i>, <i>Processing</i>,
+<i>Transformation</i>, <i>Response</i>.  Each modules is configurable, and
+has a base Interface.  If more that one class can fulfill a request, then the
+Chain Of Responsibility will be used.
+<br>
+<br>
+For a request to be able to be understood it must be in a valid raw format.
+The format of the request <b>must</b> be:
+<br>
+<ul>
+   <li>; {semi-colon}- delimeter for the request arguments
+   <ul>
+      <li>class - FQN of the Class Name to execute
+      <li>constructor - List of Class types needed for the Constructor to use
+      <li>method - The method name to execute, static method (true/false), List
+                   of Class Types to use
+      <li>type - The Type of request to use, Ascii/Binary
+      <li>methodArgument# - The value to use in the method, Class of the Wrapper 
+                      Constructor, the Class Type needed for the Wrapper
+                      Constructor
+   </ul>
+   <li>^ {caret}- seperator for the parameter arguments
+</ul>
+if no constructor parameter is given or the value associated with a constructor
+parameter is null then a empty() constructor is assumed.
+<br>
+Currently the ONLY types of data that can be used is:
+<ul>
+   <li>java.lang.String
+   <li>int - java.lang.Integer
+   <li>long - java.lang.Long
+   <li>float - java.lang.Float
+   <li>double - java.lang.Double
+   <li>boolean - java.lang.Boolean
+   <li>byte - java.lang.Byte
+   <li>char - java.lang.Character
+</ul>
+<h2>
+<b>
+<center>Default Invalid characters - ; and ^</center>
+</b>
+</h2>
+<h2>
+These can be overridden depending on the InboundTransformation used.
+</h2>
+<pre>
+Http Example:
+
+(Static Method)
+class=com.saphari.jmlnitrate.testcases.TestClass
+method=testStatic^true^int
+methodArgument0=1^java.lang.Integer^java.lang.String
+
+-OR-
+
+(Static Method)
+class=com.saphari.jmlnitrate.testcases.TestClass
+method=testStatic^true^java.lang.Integer
+methodArgument0=1^java.lang.Integer^java.lang.String
+
+-OR-
+
+(Static Method)
+class=com.saphari.jmlnitrate.testcases.TestClass
+method=testStatic^true^java.lang.String
+methodArgument0=test_value
+
+-OR-
+
+(Array Static Method)
+class=com.saphari.jmlnitrate.testcases.TestClass
+method=testStatic^true^int
+methodArgument0=1^java.lang.Integer^java.lang.String
+methodArgument0=2^java.lang.Integer^java.lang.String
+
+-OR-
+
+(Empty Constructor)
+class=com.saphari.jmlnitrate.testcases.TestClass
+constructor=null
+method=test^false^java.lang.String
+methodArgument0=This is the String
+
+-OR-
+
+(String Constructor)
+class=com.saphari.jmlnitrate.testcases.TestClass
+constructor=java.lang.String^Test String Ctor
+method=test^false^int
+methodArgument0=1^java.lang.Integer^java.lang.String
+
+</pre>
+<br>
+<br>
+<p>
+Request:
+<br>
+Every request <b>must</b> be of a valid type that is understood by the
+available RequestHandlers.  These request handlers are responsible for Wrapping
+a Raw Transport Layer (i.e TCP/IP, UDP/IP) request into a form that can be
+Transformed into a valid KernelContext. Not every client of the Kernel must
+handle the Transport Layer (ie HttpServlet), in these cases the RequestHandler
+will just be an Adaptor of the Concrete Handler, for use by the Transformers.
+</p>
+<p>
+Transformation:
+<br>
+The transformers are responsible for taking either a Wrapped Request and
+reading the underline Message Protocol (i.e HTTP, SOAP) and transforming it
+into a KernelProcess or a Raw Kernel Response and transforming it into a format
+that can be understood by the calling module.
+</p>
+<p>
+Processing:
+<br>
+This is the part of the kernel that does the actual execution of the of the
+request and return a Raw Result the needs to be transformed in to the return
+type that was specified, either on the request on in the configuration files.
+</p>
+<p>
+Response:
+<br>
+The response it the result of the Kernel executing a KernelContext and a
+Transformer transforming the Raw result into a uniform format that can be
+understood by the calling module.  
+</p> 
+</p>
+<p>
+To use jmlnitrate just add the following code to the client:
+<pre>
+    import com.saphari.jmlnitrate.client.JMLNitrate;
+
+    public class TestClient {
+
+         JMLNitrate kernel;
+	 
+         public TestClient() {
+		kernel = JMLNitrate.create();
+	 }
+	 
+    }
+</pre>
+<br>
+This is what is require to use:
+<ul>
+   <li>jmlnitrate-lib.jar
+   <li>configuration system
+   <li>logging system
+   <li>utilities system
+</ul>
+TODO:
+<ul>
+   <li>Integrate the Interceptor Arch Pattern!!!!!!!!!!!!!!
+   <li>Convert the dispatching from delegation to event driven.  that will allow
+   the decoupling of the source of the events from the implementors.  Look into
+   both the observer and Event Delegation (ie Java Event Model). It will also
+   allow behavior to be added dynamically.
+   <li>Look into the Half Sync/Half Async Concurrency Pattern for use in the
+   Core Package, by the Kernel.
+   <li>Build a Schedular.
+</ul>
+</p>
+</p>
+</body>
+</html>
