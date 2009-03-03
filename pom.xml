@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.yestech</groupId>
     <artifactId>jmlnitrate</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <version>1.0.0-SNAPSHOT</version>
     <name>JML Nitrate Micro Kernel</name>
     <url>http://yestech.org</url>
