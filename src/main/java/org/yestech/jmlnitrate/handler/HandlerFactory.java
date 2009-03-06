@@ -16,7 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yestech.jmlnitrate.handler.request.RequestHandler;
 import org.yestech.jmlnitrate.handler.response.ResponseHandler;
-import org.yestech.jmlnitrate.util.CacheManager;
+import org.yestech.lib.lang.Clazz;
 
 /**
  * This class represents the Base class/Base Factory for all the different types
@@ -24,7 +24,6 @@ import org.yestech.jmlnitrate.util.CacheManager;
  *
  * @author Arthur Copeland
  * @version $Revision: 3 $
- *
  */
 public abstract class HandlerFactory {
 
@@ -63,12 +62,9 @@ public abstract class HandlerFactory {
      *
      * @param factoryName The FQN of the Factory to use
      * @return the concrete HandlerFactory needed.
-     * @throws Exception if an error happens while trying to create the
-     * Handler
      */
-    protected static HandlerFactory getFactory(String factoryName) throws
-    Exception {
-        return getFactory(CacheManager.getClass(factoryName));
+    protected static HandlerFactory getFactory(String factoryName) {
+        return getFactory(Clazz.getClass(factoryName));
     }
 
     /**
@@ -77,12 +73,9 @@ public abstract class HandlerFactory {
      *
      * @param factoryClass The Class of the Factory to use
      * @return the concrete HandlerFactory needed.
-     * @throws Exception if an error happens while trying to create the
-     * Handler
      */
-    protected static HandlerFactory getFactory(Class factoryClass) throws
-    Exception {
-        return (HandlerFactory)factoryClass.newInstance();
+    protected static HandlerFactory getFactory(Class factoryClass) {
+        return Clazz.instantiateClass(factoryClass);
     }
 
     /**
@@ -113,7 +106,7 @@ public abstract class HandlerFactory {
      *
      * @return the RequestHandler
      * @throws Exception if an error happens creating the {@link
-     * RequestHandler}.
+     *                   RequestHandler}.
      */
     public abstract RequestHandler getRequestHandler() throws Exception;
 
@@ -123,7 +116,7 @@ public abstract class HandlerFactory {
      *
      * @return the ResponseHandler
      * @throws Exception if an error happens creating the {@link
-     * RequestHandler}.
+     *                   RequestHandler}.
      */
     public abstract ResponseHandler getResponseHandler() throws Exception;
 }

@@ -14,7 +14,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.4</version>
+            <version>4.5</version>
             <scope>test</scope>
         </dependency>
         <!-- Servlet & Jsp -->
@@ -46,7 +46,11 @@
         <!--
         end Spring
         -->
-
+        <dependency>
+            <groupId>org.yestech</groupId>
+            <artifactId>yeslib</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -58,12 +62,12 @@
                 </configuration>
             </plugin>
             <!--<plugin>-->
-                <!--<groupId>org.mortbay.jetty</groupId>-->
-                <!--<artifactId>maven-jetty-plugin</artifactId>-->
-                <!--<version>6.1.9</version>-->
-                <!--<configuration>-->
-                    <!--<scanIntervalSeconds>10</scanIntervalSeconds>-->
-                <!--</configuration>-->
+            <!--<groupId>org.mortbay.jetty</groupId>-->
+            <!--<artifactId>maven-jetty-plugin</artifactId>-->
+            <!--<version>6.1.9</version>-->
+            <!--<configuration>-->
+            <!--<scanIntervalSeconds>10</scanIntervalSeconds>-->
+            <!--</configuration>-->
             <!--</plugin>-->
         </plugins>
     </build>
@@ -117,4 +121,5 @@
             <name>Yestech snapshots repository</name>
             <url>http://repo.yestech.org/content/repositories/snapshots</url>
         </snapshotRepository>
-    </distributionManagement></project>
+    </distributionManagement>
+</project>

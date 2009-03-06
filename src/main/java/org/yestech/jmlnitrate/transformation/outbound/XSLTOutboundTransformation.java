@@ -44,9 +44,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yestech.jmlnitrate.handler.response.HttpServletResponseHandler;
 import org.yestech.jmlnitrate.handler.response.ResponseHandler;
-import org.yestech.jmlnitrate.util.FileLocator;
 import org.yestech.jmlnitrate.util.TransformationEngine;
 import org.yestech.jmlnitrate.util.TransformationEngineFactory;
+import org.yestech.lib.io.FileLocator;
 
 //==============================================================================
 // C L A S S   D E F I N I T I O N
@@ -132,7 +132,7 @@ public class XSLTOutboundTransformation extends BaseOutboundTransformation {
     }
 
     /**
-     * Transforms a {@link com.saphari.xml.XMLSerializable} into the appropriate output type.
+     * Transforms an Object into the appropriate output type.
      *
      * @param xml The Xml node
      * @param xsl The Response to transform

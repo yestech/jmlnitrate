@@ -12,9 +12,9 @@
  */
 package org.yestech.jmlnitrate.core;
 
-import org.yestech.jmlnitrate.util.CacheManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.yestech.lib.lang.Clazz;
 
 import java.io.Serializable;
 
@@ -134,7 +134,7 @@ final public class KernelProcess implements Serializable {
      * @throws Exception if error happens
      */
     public void setExecutionClass(String clazz) throws Exception {
-        setExecutionClass(CacheManager.getClass(clazz));
+        setExecutionClass(Clazz.getClass(clazz));
     }
 
     /**

@@ -26,7 +26,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
-import org.yestech.jmlnitrate.util.FileLocator;
+import org.yestech.lib.io.FileLocator;
 
 /**
  * This class represents the Manager for all the configuration files that are

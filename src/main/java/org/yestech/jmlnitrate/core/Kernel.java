@@ -12,9 +12,10 @@
  */
 package org.yestech.jmlnitrate.core;
 
-import org.yestech.jmlnitrate.util.CacheManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.yestech.lib.lang.Clazz;
+import org.yestech.lib.cache.InMemoryReflectionCache;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -130,7 +131,7 @@ final public class Kernel implements Serializable {
                                                                Object[] method) throws
                                                     Exception {
         return createKernelProcess(processName,
-                                   CacheManager.getClass(className), ctor,
+                                   Clazz.getClass(className), ctor,
                                    method);
     }
 
@@ -213,7 +214,7 @@ final public class Kernel implements Serializable {
             }
         }
         */
-        Method method = CacheManager.getMethod(
+        Method method = InMemoryReflectionCache.getMethod(
             clazz, process.getExecutionMethodName(),
             process.getExecutionMethodTypes());
 
@@ -227,7 +228,7 @@ final public class Kernel implements Serializable {
                 obj = clazz.newInstance();
             } else {
                 //find the ctor
-                Constructor ctor = CacheManager.getCtor(
+                Constructor ctor = InMemoryReflectionCache.getCtor(
                     clazz, process.getExecutionConstructorTypes());
                 obj = ctor.newInstance(process.getExecutionConstructorArgs());
             }

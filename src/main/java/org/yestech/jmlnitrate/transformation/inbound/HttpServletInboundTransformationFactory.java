@@ -20,13 +20,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yestech.jmlnitrate.transformation.Transformation;
 import org.yestech.jmlnitrate.transformation.TransformationFactory;
-import org.yestech.jmlnitrate.util.CacheManager;
 import org.yestech.jmlnitrate.util.JMLNitratePlant;
+import org.yestech.lib.lang.Clazz;
 
 /**
  * This {@link TransformationFactory} is responsible for creating a {@link
- * Transformation} the can handle a {@link InboundHandler} that contains a
- * {@link javax.servlet.http.HttpServletInbound} representation.
+ * Transformation} the can handle a {@link org.yestech.jmlnitrate.handler.request.HttpServletRequestHandler}
+ * that contains a
+ * {@link javax.servlet.http.HttpServletRequest} representation.
  * <br>
  * It can take 1..* parameters.  the mandatory pparameter is:
  * <ul>
@@ -80,7 +81,7 @@ public class HttpServletInboundTransformationFactory
             (JMLNitratePlant)getParameter();
         String factoryName = (String)(((List)plant.getParam(KEY)).get(0));
 
-        Class clazz = CacheManager.getClass(factoryName);
+        Class clazz = Clazz.getClass(factoryName);
         transformation = (Transformation)clazz.newInstance();
         //check to see if anything needs an parameters.
         if (plant.getParamCount() > 1) {

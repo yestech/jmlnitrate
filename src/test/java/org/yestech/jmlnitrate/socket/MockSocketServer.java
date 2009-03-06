@@ -24,10 +24,10 @@ import java.net.Socket;
  * @version $Revision: 3 $
  *
  */
-//public class TestSocketServer implements JMLNitrateBridge {
-public class TestSocketServer {
+//public class MockSocketServer implements JMLNitrateBridge {
+public class MockSocketServer {
 
-    public TestSocketServer() {
+    public MockSocketServer() {
         super();
     }
 

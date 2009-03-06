@@ -16,7 +16,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yestech.jmlnitrate.transformation.BaseTransformation;
 import org.yestech.jmlnitrate.transformation.TransformationParameter;
-import org.yestech.jmlnitrate.util.CacheManager;
+import org.yestech.lib.cache.InMemoryReflectionCache;
+import org.yestech.lib.lang.Clazz;
 
 import java.io.BufferedReader;
 import java.io.StreamTokenizer;
@@ -193,7 +194,7 @@ public abstract class BaseInboundTransformation extends BaseTransformation
                                     getClass((String) aparams[2])};
                                 Class actorClass = getClass((String) aparams[1]);
                                 Constructor actor =
-                                    CacheManager.getCtor(actorClass,
+                                    InMemoryReflectionCache.getCtor(actorClass,
                                     actorTypes);
 
                                 value = actor.newInstance(actorArgs);
@@ -217,7 +218,7 @@ public abstract class BaseInboundTransformation extends BaseTransformation
                                 getClass((String) parsedArgValues[1]);
 
                             Constructor ctor =
-                                CacheManager.getCtor(ctorClass,
+                                InMemoryReflectionCache.getCtor(ctorClass,
                                 ctorTypes);
 
                             methodArgs[i] = ctor.newInstance(ctorArgs);
@@ -354,7 +355,7 @@ public abstract class BaseInboundTransformation extends BaseTransformation
                 throw new IllegalArgumentException("Not a valid Class Type...");
             }
         } else {
-            type = CacheManager.getClass(classType);
+            type = Clazz.getClass(classType);
         }
         return type;
     }

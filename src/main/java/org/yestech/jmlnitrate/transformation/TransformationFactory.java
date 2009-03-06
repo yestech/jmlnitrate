@@ -14,7 +14,7 @@ package org.yestech.jmlnitrate.transformation;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.yestech.jmlnitrate.util.CacheManager;
+import org.yestech.lib.lang.Clazz;
 
 /**
  * This class represents the Base class/Base Factory for all the different types
@@ -72,12 +72,9 @@ public abstract class TransformationFactory {
      *
      * @param factoryName The FQN of the Factory to create
      * @return the concrete TransformationFactory needed.
-     * @throws Exception if an error happens while trying to create the
-     * Transformation
      */
-    protected static TransformationFactory getFactory(String factoryName)
-        throws Exception {
-        return getFactory(CacheManager.getClass(factoryName));
+    protected static TransformationFactory getFactory(String factoryName) {
+        return getFactory(Clazz.getClass(factoryName));
     }
 
     /**
@@ -86,12 +83,9 @@ public abstract class TransformationFactory {
      *
      * @param factoryClass The Class of the Factory to use
      * @return the concrete TransformationFactory needed.
-     * @throws Exception if an error happens while trying to create the
-     * Handler
      */
-    protected static TransformationFactory getFactory(Class factoryClass) throws
-    Exception {
-        return (TransformationFactory)factoryClass.newInstance();
+    protected static TransformationFactory getFactory(Class factoryClass) {
+        return Clazz.instantiateClass(factoryClass);
     }
 
     /**

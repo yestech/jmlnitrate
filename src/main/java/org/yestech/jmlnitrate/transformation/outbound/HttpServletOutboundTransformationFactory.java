@@ -12,34 +12,34 @@
  */
 package org.yestech.jmlnitrate.transformation.outbound;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yestech.jmlnitrate.transformation.Transformation;
 import org.yestech.jmlnitrate.transformation.TransformationFactory;
-import org.yestech.jmlnitrate.util.CacheManager;
 import org.yestech.jmlnitrate.util.JMLNitratePlant;
+import org.yestech.lib.lang.Clazz;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * This {@link TransformationFactory} is responsible for creating a {@link
- * Transformation} the can handle a {@link OutboundHandler} that contains a
- * {@link javax.servlet.http.HttpServletOutbound} representation.
+ * Transformation} the can handle a {@link org.yestech.jmlnitrate.handler.response.HttpServletResponseHandler}
+ * that contains a
+ * {@link javax.servlet.http.HttpServletResponse} representation.
  * <br>
  * It can take 1..* parameters.  the mandatory pparameter is:
  * <ul>
- *     <li>key - transfomer CONSTANT
- *     <li>value - FQN of the transformer to use
+ * <li>key - transfomer CONSTANT
+ * <li>value - FQN of the transformer to use
  * </ul>
- * 
+ *
  * @author Arthur Copeland
  * @version $Revision: 3 $
- *
  */
 public class HttpServletOutboundTransformationFactory
-    extends TransformationFactory {
+        extends TransformationFactory {
     //--------------------------------------------------------------------------
     // S T A T I C   V A R I A B L E S 
     //--------------------------------------------------------------------------
@@ -72,16 +72,15 @@ public class HttpServletOutboundTransformationFactory
      *
      * @return the Transformation
      * @throws Exception if an error happens creating the {@link
-     * Transformation}.
+     *                   Transformation}.
      */
     public Transformation getTransformation() throws Exception {
         Transformation transformation = null;
         JMLNitratePlant plant =
-            (JMLNitratePlant)getParameter();
-        String factoryName = (String)(((List)plant.getParam(KEY)).get(0));
+                (JMLNitratePlant) getParameter();
+        String factoryName = (String) (((List) plant.getParam(KEY)).get(0));
 
-        Class clazz = CacheManager.getClass(factoryName);
-        transformation = (Transformation)clazz.newInstance();
+        transformation = Clazz.instantiateClass(factoryName);
 
         //check to see if anything needs an parameters.
         HashMap params = new HashMap();

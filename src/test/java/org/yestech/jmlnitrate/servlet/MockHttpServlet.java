@@ -29,11 +29,11 @@ import java.io.PrintWriter;
  * @author Arthur Copeland
  * @version $Revision: 3 $
  */
-//public class TestHttpServlet extends HttpServlet implements JMLNitrateBridge {
-public class TestHttpServlet extends HttpServlet
+//public class MockHttpServlet extends HttpServlet implements JMLNitrateBridge {
+public class MockHttpServlet extends HttpServlet
 {
 
-    public TestHttpServlet()
+    public MockHttpServlet()
     {
         super();
     }
