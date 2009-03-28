@@ -65,7 +65,7 @@ public class HttpServletRequestInboundTransformation
     //--------------------------------------------------------------------------
     /**
      *  Transforms a {@link RequestHandler} to a {@link
-     *  org.jmlnitrate.core.KernelContext}. <br>
+     *  org.yestech.jmlnitrate.core.KernelContext}. <br>
      *  The format of the Request: <i>Required</i>
      *  <ul>
      *    <li> <i>className</i> - The FQN Class Name of the Class to execute
