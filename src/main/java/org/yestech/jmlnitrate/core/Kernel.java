@@ -15,7 +15,6 @@ package org.yestech.jmlnitrate.core;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yestech.lib.lang.Clazz;
-import org.yestech.lib.cache.InMemoryReflectionCache;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -214,9 +213,8 @@ final public class Kernel implements Serializable {
             }
         }
         */
-        Method method = InMemoryReflectionCache.getMethod(
-            clazz, process.getExecutionMethodName(),
-            process.getExecutionMethodTypes());
+        Method method = Clazz.getMethod(clazz, process.getExecutionMethodName(),
+                process.getExecutionMethodTypes());
 
         Object obj = null;
         //check to see if ctor needed?
@@ -228,7 +226,7 @@ final public class Kernel implements Serializable {
                 obj = clazz.newInstance();
             } else {
                 //find the ctor
-                Constructor ctor = InMemoryReflectionCache.getCtor(
+                Constructor ctor = Clazz.getConstructor(
                     clazz, process.getExecutionConstructorTypes());
                 obj = ctor.newInstance(process.getExecutionConstructorArgs());
             }

@@ -16,7 +16,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yestech.jmlnitrate.transformation.BaseTransformation;
 import org.yestech.jmlnitrate.transformation.TransformationParameter;
-import org.yestech.lib.cache.InMemoryReflectionCache;
 import org.yestech.lib.lang.Clazz;
 
 import java.io.BufferedReader;
@@ -193,9 +192,7 @@ public abstract class BaseInboundTransformation extends BaseTransformation
                                 Class[] actorTypes = {
                                     getClass((String) aparams[2])};
                                 Class actorClass = getClass((String) aparams[1]);
-                                Constructor actor =
-                                    InMemoryReflectionCache.getCtor(actorClass,
-                                    actorTypes);
+                                Constructor actor = Clazz.getConstructor(actorClass,actorTypes);
 
                                 value = actor.newInstance(actorArgs);
                             } else {
@@ -212,15 +209,9 @@ public abstract class BaseInboundTransformation extends BaseTransformation
                         if (psize > 1) {
                             //ctor needed
                             Object[] ctorArgs = {parsedArgValues[0]};
-                            Class[] ctorTypes = {
-                                getClass((String) parsedArgValues[2])};
-                            Class ctorClass =
-                                getClass((String) parsedArgValues[1]);
-
-                            Constructor ctor =
-                                InMemoryReflectionCache.getCtor(ctorClass,
-                                ctorTypes);
-
+                            Class[] ctorTypes = {getClass((String) parsedArgValues[2])};
+                            Class ctorClass = getClass((String) parsedArgValues[1]);
+                            Constructor ctor = Clazz.getConstructor(ctorClass,ctorTypes);
                             methodArgs[i] = ctor.newInstance(ctorArgs);
                         } else {
                             //this is the value doesn't need a ctor
