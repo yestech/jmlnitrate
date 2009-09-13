@@ -30,4 +30,10 @@
             <version>1.0.0</version>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <site>
+            <id>yestech.org</id>
+            <url>file:////wwwhome/yestech.org/sites/${artifactId}</url>
+        </site>
+    </distributionManagement>
 </project>
